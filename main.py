@@ -1,7 +1,10 @@
 import requests
+import twitchio
+from time import sleep
 from twitchio.ext import commands
 import json
 import os
+import helpers
 
 # Pull in the config json file and parse it into a dict
 config_txtfile = open("config/config_secret.json", "rt+")
@@ -25,9 +28,26 @@ async def event_ready():
     ws = twbot._ws
     await ws.send_privmsg(config["twitch_initial_channels"][0], f"/me has Logged In. Howdy gamers.")
 
+
 @twbot.command(name="bothelp")
 async def bothelp(ctx):
+    # print(str(ctx.content))
     await ctx.send("*** Testing.")
+
+
+@twbot.command(name="weather")
+async def weather(ctx):
+    msg = ctx.content
+    ziparray = msg.split(' ', 1)
+    # print(len(ziparray))
+    if len(ziparray) <= 1:
+        await ctx.send("Not enough arguments. Syntax: !weather zip, like this: !weather 07801")
+        sleep(1.5)
+        zipcd = "10001"
+    else:
+        zipcd = ziparray[1]
+    s = helpers.weather(zipcd, config)
+    await ctx.send(s)
 
 # so that i can start up the bot by calling main.py with a cron job
 if __name__ == "__main__":

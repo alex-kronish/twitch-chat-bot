@@ -1,0 +1,8 @@
+{
+    "_comment": "This needs to be updated with Twitch Oauth keys, then renamed to config_secret.json. Do not share your API keys or OAuth credentials with anyone.",
+    "twitch_username": "Put your robots twitch username here",
+    "twitch_client_id": "client_id",
+    "twitch_irc_token": "irc_token",
+    "twitch_bot_prefix": "!",
+    "twitch_initial_channels": ["Put your twitch channel username here"]
+}

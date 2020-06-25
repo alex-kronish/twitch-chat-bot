@@ -65,7 +65,7 @@ def hydrate(config):
         api_url = "https://api.twitch.tv/helix/streams?user_login=" + config["twitch_initial_channels"][0]
         streamdata = requests.get(api_url, headers=h)
         if streamdata.status_code != 200:
-            s = "Something went wrong with the API Call. HTTP Status Code: " + str(streamdata.status_code)
+            s = "Beep boop. Something went wrong with the API Call. HTTP Status Code: " + str(streamdata.status_code)
         else:
             if len(streamdata.json()["data"]) == 0:
                 s = "The stream is offline. You may uncontrollably guzzle cum at your " \

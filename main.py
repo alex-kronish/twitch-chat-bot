@@ -53,6 +53,12 @@ async def hydrate(ctx):
     await ctx.send(s)
 
 
+@twbot.command(name="discord")
+async def discord(ctx):
+    s = "Well there isn't one but maybe one day."
+    await ctx.send(s)
+
+
 # so that i can start up the bot by calling main.py with a cron job
 if __name__ == "__main__":
     twbot.run()

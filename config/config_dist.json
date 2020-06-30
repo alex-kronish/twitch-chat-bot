@@ -5,5 +5,6 @@
     "twitch_irc_token": "irc_token",
     "twitch_bot_prefix": "!",
     "twitch_initial_channels": ["Put your twitch channel username here"],
-    "openweathermap_api_key": "0115D8CF"
+    "openweathermap_api_key": "0115D8CF",
+    "markov_excluded_words": []
 }

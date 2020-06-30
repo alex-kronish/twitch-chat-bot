@@ -18,7 +18,7 @@ twbot = commands.Bot(
     prefix=config["twitch_bot_prefix"],
     initial_channels=config["twitch_initial_channels"]
 )
-m = markov.MarkovChainer()
+m = markov.MarkovChainer(2)
 helpers.markov_startup(m)
 
 
@@ -28,35 +28,19 @@ async def event_ready():
     print("bot ready......")
     ws = twbot._ws
     await ws.send_privmsg(config["twitch_initial_channels"][0], f"/me has Logged In. Howdy gamers.")
-
-
-@twbot.event
-async def event_message(ctx):
-    # runs every time a message is sent.
-    if ctx.author.name.lower() == config["twitch_username"].lower():
-        return
-    msg = ctx.content
-    action_calc = random.randrange(1, 50)
-    helpers.markov_add(m, msg, config["markov_excluded_words"])
-    s = None
-    if action_calc == 10:
-        s = helpers.butt_replace(msg)
-    elif action_calc == 20:
-        s = m.generate_sentence()
-    if s is None:
-        return
-    else:
-        await ctx.send(s)
+    return
 
 
 @twbot.command(name="h")
 async def bothelp(ctx):
     # print(str(ctx.content))
-    await ctx.send("*** Testing.")
+    await ctx.channel.send("*** Testing.")
+    return
 
 
 @twbot.command(name="weather")
 async def weather(ctx):
+    print("Weather")
     msg = ctx.content
     ziparray = msg.split(' ', 1)
     # print(len(ziparray))
@@ -67,22 +51,49 @@ async def weather(ctx):
     else:
         zipcd = ziparray[1]
     s = helpers.weather(zipcd, config)
-    await ctx.send(s)
+    await ctx.channel.send(s)
+    return
 
 
 @twbot.command(name="hydrate")
 async def hydrate(ctx):
+    print("Hydration")
     s = helpers.hydrate(config)
-    await ctx.send(s)
+    await ctx.channel.send(s)
+    return
 
 
 @twbot.command(name="discord")
 async def discord(ctx):
     s = "Well there isn't one, but maybe one day. Subscribe to grow the channel, maybe I'll be big enough to justify " \
         "it! "
-    await ctx.send(s)
+    await ctx.channel.send(s)
+    return
 
 
-# so that i can start up the bot by calling main.py with a cron job
+@twbot.event
+async def event_message(ctx):
+    await twbot.handle_commands(ctx)
+    # runs every time a message is sent.
+    if ctx.author.name.lower() == config["twitch_bot_username"].lower():
+        return
+    msg = ctx.content
+    action_calc = random.randrange(1, 31)
+    helpers.markov_add(m, msg, config["markov_excluded_words"])
+    s = None
+    if action_calc == 10:
+        s = helpers.butt_replace(msg)
+    elif action_calc == 20:
+        s = m.generate_sentence()
+    elif action_calc == 30:
+        s = "FrankerZ"
+    if s is None:
+        return
+    else:
+        await ctx.channel.send(s)
+    return
+
+
+# so that i can start up the bot by calling twitch_bot.py with a cron job
 if __name__ == "__main__":
     twbot.run()

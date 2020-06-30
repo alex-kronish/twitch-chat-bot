@@ -5,7 +5,7 @@ import re
 import datetime
 
 
-# helper functions to keep the main.py file relatively clean.
+# helper functions to keep the twitch_bot.py file relatively clean.
 
 def checkzipcode(zipcode):
     res = True

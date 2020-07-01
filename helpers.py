@@ -75,7 +75,7 @@ def hydrate(config):
             else:
                 stream = streamdata.json()["data"][0]
                 time_str = stream["started_at"]
-                started_time = datetime.datetime.strptime(time_str, '%Y-%m-%dT%H:%M:%S.%fZ')
+                started_time = datetime.datetime.strptime(time_str, '%Y-%m-%dT%H:%M:%SZ')
                 print(str(started_time))
                 current_time = datetime.datetime.utcnow()
                 print(str(current_time))
@@ -85,9 +85,9 @@ def hydrate(config):
                 cum_intake_per_sec = daily_cum_intake / 86400.0  # number of seconds per day
                 sec_total = timedelta.seconds
                 cum_intake_recommended = sec_total * cum_intake_per_sec
-                live_time = str(timedelta)
+                live_time = str(timedelta).split(".")[0]
                 s = "The stream has been going for " + live_time + ". Mico should have guzzled about " + \
-                    str(cum_intake_recommended) + " Liters of cum so far. Stay hydrated, gamers :)"
+                    format(cum_intake_recommended, '.2f') + " Liters of cum so far. Stay hydrated, gamers :)"
     return s
 
 
